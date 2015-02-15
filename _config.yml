@@ -8,7 +8,8 @@ permalink:        pretty
 # Setup
 title:            Off by one
 tagline:          Programming for the rest of us
-url:              http://blog.jedd-ahyoung.com
+## url:              http://blog.jedd-ahyoung.com
+url:              http://jedd-ahyoung.github.io/off-by-one
 paginate:         1
 baseurl:          /
 author:
