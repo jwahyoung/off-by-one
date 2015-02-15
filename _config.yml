@@ -1,6 +1,6 @@
 # Dependencies
 markdown:         redcarpet
-highlighter:         true
+pygment:         true
 
 # Permalinks
 permalink:        pretty
@@ -9,9 +9,9 @@ permalink:        pretty
 title:            Off by one
 tagline:          Programming for the rest of us
 ## url:              http://blog.jedd-ahyoung.com
-url:              http://jedd-ahyoung.github.io/
+url:              http://blog.jedd-ahyoung.com/
 paginate:         1
-baseurl:          /off-by-one/
+baseurl:          /
 author:
   name:           Jedd Ahyoung
   url:            http://www.jedd-ahyoung.com
