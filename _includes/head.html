@@ -3,6 +3,13 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<link rel="canonical" href="http://blog.jedd-ahyoung.com">
 
+	<!-- Redirection script, since gh-pages doesn't support this. -->
+	<script type="text/javascript">
+		if (window.location.host === 'jedd-ahyoung.github.io') {
+			window.location.href = 'http://blog.jedd-ahyoung.com{{ page.url }}';
+		}
+	</script>
+
 	<!-- Enable responsiveness on mobile devices-->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
@@ -29,11 +36,4 @@
 
 	<!-- RSS -->
 	<link rel="alternate" type="application/rss+xml" title="RSS" href="{{ site.baseurl }}atom.xml" />
-
-	<!-- Redirection script, since gh-pages doesn't support this. -->
-	<script type="text/javascript">
-		if (window.location.host === 'jedd-ahyoung.github.com') {
-			window.location.href = 'http://blog.jedd-ahyoung.com{{ page.url }}';
-		}
-	</script>
 </head>
