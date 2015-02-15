@@ -48,13 +48,13 @@ body {
 }
 
 html {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 16px;
+  font-family: "Muli", Helvetica, Arial, sans-serif;
+  font-size: 14px;
   line-height: 1.5;
 }
 @media (min-width: 38em) {
   html {
-    font-size: 20px;
+    font-size: 18px;
   }
 }
 
@@ -89,6 +89,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 h1 {
   font-size: 2rem;
+  font-family: 'Raleway', sans-serif;
+  text-transform: uppercase;
 }
 h2 {
   margin-top: 1rem;
@@ -304,19 +306,22 @@ tbody tr:nth-child(odd) th {
   padding-top:    1rem;
   padding-bottom: 1rem;
   margin-bottom: 3rem;
+  background: black;
 }
 .masthead-title {
+  font-family: 'Raleway', sans-serif;
+  text-transform: uppercase;
   margin-top: 0;
   margin-bottom: 0;
-  color: #505050;
+  color: #fff;
 }
 .masthead-title a {
-  color: #505050;
+  color: #fff;
 }
 .masthead-title small {
   font-size: 75%;
   font-weight: 400;
-  color: #c0c0c0;
+  color: #a0a0a0;
   letter-spacing: 0;
 }
 
