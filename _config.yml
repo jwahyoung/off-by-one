@@ -1,14 +1,13 @@
 # Dependencies
 markdown:         redcarpet
-pygment:         true
+pygments:         true
 
 # Permalinks
 permalink:        pretty
 
 # Setup
-title:            Off by one
+title:            Off by One
 tagline:          Programming for the rest of us
-## url:              http://blog.jedd-ahyoung.com
 url:              http://blog.jedd-ahyoung.com/
 paginate:         1
 baseurl:          /
@@ -16,6 +15,11 @@ author:
   name:           Jedd Ahyoung
   url:            http://www.jedd-ahyoung.com
   email:          jedd-ahyoung@gmail.com
+
+# Sass
+sass:
+  sass_dir:          _scss
+  style:            :compressed
 
 # Custom vars
 version:          1.0.0

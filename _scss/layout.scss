@@ -1,0 +1,27 @@
+// Layout
+//
+// Styles for managing the structural hierarchy of the site.
+
+.wrapper {
+	background: #fff;
+	background: -moz-linear-gradient(top, $darker 0%, rgba(255,255,255,1) 39%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$darker), color-stop(39%,rgba(255,255,255,1)));
+	background: -webkit-linear-gradient(top, $darker 0%,rgba(255,255,255,1) 39%);
+	background: -o-linear-gradient(top, $darker 0%,rgba(255,255,255,1) 39%);
+	background: -ms-linear-gradient(top, $darker 0%,rgba(255,255,255,1) 39%);
+	background: linear-gradient(to bottom, $darker 0%,rgba(255,255,255,1) 39%);
+}
+
+.container {
+	max-width: 48rem;
+	padding-left:  1.5rem;
+	padding-right: 1.5rem;
+	margin-left:  auto;
+	margin-right: auto;
+}
+
+.footer {
+	min-height: 10rem;
+	background: #000;
+	color: #fff;
+}

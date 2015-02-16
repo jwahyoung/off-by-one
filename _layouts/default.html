@@ -5,19 +5,25 @@
 
   <body>
 
-    <div class="masthead">
-      <div class="container">
-        <h3 class="masthead-title">
-          <a href="{{ site.baseurl }}" title="Home">{{ site.title }}</a>
-          <small>{{ site.tagline }}</small>
-        </h3>
+    <div class="masthead-wrapper">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="{{ site.baseurl }}" title="Home">{{ site.title }}</a>
+            <small>{{ site.tagline }}</small>
+          </h3>
+        </div>
       </div>
     </div>
-    <div class="container content">
+    <div class="wrapper">
+      <div class="container content">
 
-      {{ content }}
+        {{ content }}
 
-      <div class="footer">
+      </div>
+    </div>
+    <div class="footer">
+      <div class="container">
         <p>
           &copy; {{ site.time | date: '%Y' }}. All rights reserved.
         </p>
