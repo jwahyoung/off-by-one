@@ -5,28 +5,47 @@
 
   <body>
 
-    <div class="masthead-wrapper">
-      <div class="masthead">
-        <div class="container">
-          <h3 class="masthead-title">
-            <a href="{{ site.baseurl }}" title="Home">{{ site.title }}</a>
-            <small>{{ site.tagline }}</small>
-          </h3>
+    <div class="body">
+      <div class="masthead-wrapper">
+        <div class="masthead">
+          <div class="container">
+            <h3 class="masthead-title">
+              <a href="{{ site.baseurl }}" title="Home">{{ site.title }}</a>
+              <small>&nbsp;&nbsp;&nbsp;&nbsp;{{ site.tagline }}</small>
+            </h3>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="wrapper">
-      <div class="container content">
+      <div class="wrapper">
+        <div class="container content">
 
-        {{ content }}
+          {{ content }}
 
+        </div>
       </div>
+      <div class="push"></div>
     </div>
+
     <div class="footer">
       <div class="container">
-        <p>
-          &copy; {{ site.time | date: '%Y' }}. All rights reserved.
-        </p>
+        <div class="column on-3 center-align">
+          <img class="moneyshot" src="/images/moneyshot.jpg" />
+        </div><div class="column on-3">
+          <p class="blurb">
+            I'm <a href="http://www.jedd-ahyoung.com">Jedd Ahyoung</a>, the author of <strong>{{ site.title }}</strong> - look me up on GitHub, StackOverflow, and LinkedIn! 
+          </p>
+          <div class="center-align">
+            <a class="icon icon-mail" itemprop="email" href="mailto:jedd.ahyoung@gmail.com" title="Send me email"></a>
+            <a class="icon icon-stackoverflow" itemprop="url" href="http://stackoverflow.com/users/677526/jedd-ahyoung" title="View my StackOverflow contributions"></a>
+            <a class="icon icon-linkedin" itemprop="url" href="http://www.linkedin.com/in/jeddahyoung" title="Find me on LinkedIn"></a>
+            <a class="icon icon-github" itemprop="url" href="https://github.com/jedd-ahyoung" title="Find me on Github"></a>
+          </div>
+        </div><div class="column on-3 right-align">
+          <p>
+            &copy; Jedd Ahyoung, {{ site.time | date: '%Y' }}. All rights reserved.
+          </p>
+          <img class="logo" src="/images/logo.svg" />
+        </div>
       </div>
     </div>
 

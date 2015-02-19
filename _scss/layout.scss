@@ -2,6 +2,14 @@
 //
 // Styles for managing the structural hierarchy of the site.
 
+.body {
+	min-height: 100%;
+	height: auto !important; /* This line and the next line are not necessary unless you need IE6 support */
+	height: 100%;
+	margin: 0 auto -15rem; /* the bottom margin is the negative value of the footer's height */
+	padding-bottom: 15rem;
+}
+
 .wrapper {
 	background: #fff;
 	background: -moz-linear-gradient(top, $darker 0%, rgba(255,255,255,1) 39%);
@@ -21,7 +29,61 @@
 }
 
 .footer {
-	min-height: 10rem;
-	background: #000;
-	color: #fff;
+	height: 15rem;
+	background: rgba(36, 50, 48, 0.8);
+	border-top: 10px solid black;
+	color: #ccc;
+	position: relative;
+
+	strong {
+		color: white;
+	}
+
+	a {
+		text-decoration: dotted;
+		color: #ff9900;
+
+
+	}
+
+	.column {
+		display: inline-block;
+		padding: 2rem 0;
+		vertical-align: top;
+	}
+
+	.on-3 {
+		width: 33.33%;
+	}
+
+	.center-align {
+		text-align: center;
+	}
+
+	.right-align {
+		text-align: right;
+	}
+
+	.logo {
+		display: inline-block;
+		width: 25rem;
+		opacity: 0.25;
+		position: absolute;
+		right: 10px;
+		bottom: 10px;
+		margin: 0;
+	}
+
+	.moneyshot {
+		display: inline-block;
+		width: 170px;
+		height: auto;
+		border-radius: 85px;
+		margin: 0 2rem 0 0;
+	}
+}
+
+.push {
+	// height: 10rem;
+	background: #fff;
 }
