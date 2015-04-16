@@ -77,13 +77,19 @@
 	}
 
 	.logo {
-		display: inline-block;
-		width: 25rem;
-		opacity: 0.25;
-		position: absolute;
-		right: 10px;
-		bottom: 10px;
-		margin: 0;
+		@media screen and (max-width: 640px) {
+			display: none;
+		}
+
+		@media screen and (min-width: 640px) {
+			display: inline-block;
+			width: 25rem;
+			opacity: 0.25;
+			position: absolute;
+			right: 10px;
+			bottom: 10px;
+			margin: 0;
+		}
 	}
 
 	.moneyshot {
