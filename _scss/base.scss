@@ -32,7 +32,14 @@ html {
 body {
   color: #515151;
   // background-color: #fff;
-  background: #666 url("../images/landingbg.jpg") fixed;
+  @media screen and (min-width: 640px) {
+    background: #666 url("../images/landingbg.jpg") fixed;
+  }
+
+  @media screen and (max-width: 640px) {
+    background: #666 url("../images/mobilebg.jpg") fixed;
+  }
+
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
 }
