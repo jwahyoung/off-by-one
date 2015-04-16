@@ -26,10 +26,16 @@
 	padding-right: 1.5rem;
 	margin-left:  auto;
 	margin-right: auto;
+
+	&.content {
+		@media screen and (max-width: 640px) {
+			background: #fff;
+		}
+	}
 }
 
 .footer {
-	height: 15rem;
+	min-height: 15rem;
 	background: rgba(36, 50, 48, 0.8);
 	border-top: 10px solid black;
 	color: #ccc;
@@ -42,18 +48,24 @@
 	a {
 		text-decoration: dotted;
 		color: #ff9900;
-
-
 	}
 
 	.column {
-		display: inline-block;
-		padding: 2rem 0;
 		vertical-align: top;
-	}
 
-	.on-3 {
-		width: 33.33%;
+		@media screen and (min-width: 640px) {
+			display: inline-block;
+			padding: 2rem 0;
+
+			&.on-3 {
+				width: 33.33%;
+			}
+		}
+
+		@media screen and (max-width: 640px) {
+			display: block;
+			padding: 1rem 0;
+		}
 	}
 
 	.center-align {
@@ -75,11 +87,27 @@
 	}
 
 	.moneyshot {
-		display: inline-block;
-		width: 170px;
-		height: auto;
-		border-radius: 85px;
-		margin: 0 2rem 0 0;
+		@media screen and (max-width: 640px) {
+			display: none;
+		}
+
+		@media screen and (min-width: 640px) {
+			display: inline-block;
+			width: 170px;
+			height: auto;
+			border-radius: 85px;
+			margin: 0 2rem 0 0;
+		}
+	}
+
+	.copyright {
+		@media screen and (min-width: 640px) {
+			text-align: right;
+		}
+
+		@media screen and (max-width: 640px) {
+			text-align: center;
+		}
 	}
 }
 

@@ -30,5 +30,14 @@
     font-weight: 400;
     color: #a0a0a0;
     letter-spacing: 0;
+
+    @media screen and (min-width: 640px) {
+      margin-left: 1.5em;
+    }
+
+    @media screen and (max-width: 640px) {
+      display: block;
+      margin-top: .5em;
+    }
   }
 }
