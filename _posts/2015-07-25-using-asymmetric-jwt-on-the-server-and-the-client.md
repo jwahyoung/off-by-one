@@ -1,7 +1,7 @@
 ---
 uid: 788c558c-83c1-4444-81bc-a63c753245fd
 layout: post
-title: Using JWT with an SPA
+title: Using asymmetric JWT on the server and the client
 date: 2015-07-25
 tags: jwt, javascript, node, express
 published: true
@@ -11,7 +11,7 @@ The modern web is built upon a stateless protocol: HTTP. However, we turn to old
 
 ## What is JWT?
 
-JSON Web Token, or JWT for short, is a token used for authentication in web applications as defined by [RFC7159](https://tools.ietf.org/html/rfc7519). It's been around for approximately two years, and it's being pushed by [Auth0](https://auth0.com/). As of the time of this writing, Auth0 has just completed its rebranding of [jwt.io](http://jwt.io/).
+JSON Web Token, or JWT for short, is a token used for authentication in web applications as defined by [RFC7519](https://tools.ietf.org/html/rfc7519). It's been around for approximately two years, and it's being pushed by [Auth0](https://auth0.com/). As of the time of this writing, Auth0 has just completed its rebranding of [jwt.io](http://jwt.io/).
 
 Tokens expose claims as part of the payload. A typical token payload, after being converted from Base64, could look something like this:
 
