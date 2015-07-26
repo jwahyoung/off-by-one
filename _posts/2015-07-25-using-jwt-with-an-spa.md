@@ -7,35 +7,57 @@ tags: jwt, javascript, node, express
 published: true
 ---
 
-The web has always run on a stateless protocol - HTTP. However, as the web grew and grew, developers discovered the need for state in their web applications. Often, we store session state on a server somewhere, and retrieve that session from the client. (Talk about application permissions.) Now, we have a new alternative: [JSON Web Token](https://en.wikipedia.org/wiki/JSON_Web_Token).
+The modern web is built upon a stateless protocol: HTTP. However, we turn to older conventions when attempting to store state in web applications - often turning to session storage on the server side. Now, we have a modern alternative: [JSON Web Token](https://en.wikipedia.org/wiki/JSON_Web_Token).
 
 ## What is JWT?
 
 JSON Web Token, or JWT for short, is a token used for authentication in web applications as defined by [RFC7159](https://tools.ietf.org/html/rfc7519). It's been around for approximately two years, and it's being pushed by [Auth0](https://auth0.com/). As of the time of this writing, Auth0 has just completed its rebranding of [jwt.io](http://jwt.io/).
 
+Tokens expose claims as part of the payload. A typical token payload, after being converted from Base64, could look something like this:
+
+	{
+		"iss": "myapp.io"
+		"exp": "1536710400"
+		"iat": "1437891817"
+		"user": {
+			"username": "testuser",
+			"displayname": "Test User",
+			"permissions": ['read', 'write']
+		}
+	}
+
+The payload is encapsulated by a header and a footer, containing the token specification (token type, signing algorithm) and signature, respectively.
+
 ## So, what are the benefits?
 
-What, didn't you read the RFC? Yeah, neither did I. 
+What, didn't you read the RFC? Yeah, neither did I. However, there are clear benefits at first glance:
 
-Due to its nature, JWT is stateless. This means that we don't have to store session on a server, leading to less overhead and less complex code. It can also be used by multiple vendors.
+ - A user can have an application session without the application having to store that session state in some type of persistent storage.
+ - Unlike the classic session model, JWTs don't require the use of cookies, which can simplify cross-domain requests. 
 
-## The basic idea
+The implications for the first bullet point are quite large. Not having to store an application session per user means that we can simplify our code, deload our authentication server and persistence server, and save a lot of space. Furthermore, by using the client as a part of the session scheme, we introduce scalability easily without having to throw more hardware at the solution (or a different storage methodology such as Redis).
 
-We're going to use JWT for user identification and authorization.
+As for the second point - we live in an age where mobile is a first-class citizen. Native mobile applications don't always do well with cookies, but they have no problem with Authorization headers containing JWTs. Forward-looking APIs recognize that their clients may not always be web browsers.
 
-For the purposes of my use case, I wanted to provide an authentication endpoint in my server application. Upon a successful login, the user would receive a JSON Web Token, which would be stored in the client application (in localStorage, in this case). The token itself would contain a list of permissions applicable to that user, along with any other relevant user information. Logging out would simply clear the token from storage.
+These two reasons alone make JWT a viable alternative to traditional sessions. In conjunction with a highly concurrent framework like Node.js, I think it's a solution worth investigating.
 
-The token would be passed with every web request; once the server verifies the token, the server application logic would use the permissions defined in the token to determine whether or not a user is authorized to perform the specific function associated with that request. 
+## The Basic Premise
 
-Here's the cool thing - the client-side application, having a copy of the token, could also read the permissions and deny access to certain functionality based on the token itself.
+We're going to use JWT for user identification and authorization - on both the server side and the client side.
 
-## Implementing JWT in Express.JS
+For the purposes of my use case, I wanted to provide an authentication endpoint in my server application. Upon a successful login, the user would receive a JSON Web Token, which would be stored in the client application (in LocalStorage, in this case). The token itself would contain a list of permissions applicable to that user, along with any other relevant user information. Logging out would simply clear the token from storage.
 
-Because we're using the token on both sides of the application - server, and client - we're going to want to sign our token using an [asymmetric key](https://en.wikipedia.org/wiki/Public-key_cryptography). This ensures that while our server and our client (and anyone, really) can verify the tokens using a public key, only the server can sign the tokens using a secured private key.
+The token would be passed in the Authorization header of every web request; once the server verifies the token, the server application logic would use the permissions defined in the token to determine whether or not a user is authorized to perform the specific function associated with that request. 
 
-This protects us from someone attempting to edit the token on the client side (since it is visible in localStorage) to spoof a user or permissions on the client or server, as editing the token will invalidate the hash. It also protects from someone attempting to create a valid token with false data; although they may have the public key, without the correct private key they cannot create a signature that the server will verify.
+Here's the cool thing - the client-side application, having a copy of the token, could also read the permissions and deny access to certain functionality based on the token itself. Due to the way we'll implement the token signature, the client-side application can check the validity of the token and react to an invalid token, just as the server can.
 
-**NOTE:** A private key is just that; private. Leaking or losing this key compromises the integrity of the entire application. If possible, follow [twelve-factor](http://12factor.net) in your application and [access your keys through a Node environment variable](http://12factor.net/config) - and DO NOT check them into source control.
+## Implementing JWT in Express.js
+
+Because we're using the token on both sides of the application - server, and client - we're going to want to sign our token using an [asymmetric key](https://en.wikipedia.org/wiki/Public-key_cryptography). This ensures that while our server and our client (and anyone, really) can verify the tokens using a public key, only the server - using a secured private key - can sign the tokens.
+
+This protects us from someone attempting to edit the token on the client side (since it is visible in LocalStorage) to impersonate a user or spoof permissions on the client or server, as editing the token will invalidate the hash. It also protects from someone attempting to create a valid token with false data; although they may have the public key, without the correct private key they cannot create a signature that the server will verify.
+
+***NOTE:*** A private key is just that; private. Leaking or losing this key compromises the integrity of the entire application. If possible, follow [twelve-factor](http://12factor.net) in your application and [access your keys through a Node environment variable](http://12factor.net/config) - and DO NOT check them into source control.
 
 It's also worth noting that we are not *encrypting* the token - we are only *signing* the token. This is an important distinction.
 
@@ -53,16 +75,16 @@ I'm not sure how this can be done on a Windows system (sorry!) but if you're on 
 	Your identification has been saved in /Users/jahyoung/.ssh/id_rsa.
 	Your public key has been saved in /Users/jahyoung/.ssh/id_rsa.pub.
 	The key fingerprint is:
-	5a:00:bd:64:5b:9e:20:7e:02:95:19:dc:88:47:fa:9d jahyoung@Jedds-MacBook-Pro.local
+	95:19:dc:88:64:5b:9e:20:7e:02:47:fa:9d:5a:00:bd jahyoung@Jedds-MacBook-Pro.local
 	The key's randomart image is:
 	+--[ RSA 2048]----+
-	|   ==B           |
-	|  o.B.* .        |
-	|  .+ +.* .       |
-	|   .o.+oo        |
-	|    .oE S        |
-	|       o         |
-	|      .          |
+	|        ==B      |
+	|       o.B.* .   |
+	|       .+ +.* .  |
+	|        .o.+oo   |
+	|         .oE S   |
+	|            o    |
+	|           .     |
 	|                 |
 	|                 |
 	+-----------------+
@@ -75,11 +97,13 @@ After that, you can either move the keys to your project directory for use in yo
 
 Note that when generating a key (regardless of which tool you use to do so), for our purposes, do not enter a passphrase. (I ran into problems with token verification due to this. If there is a way to use a passphrase with verification, I'd love to know.)
 
-NOTE: If you're on a Mac, like me, you may have issues transforming the public key from the OpenSSH format to PEM format, which is necessary for use with the JWT libraries we're using. The version of ssh-keygen bundled with Mavericks isn't up to date. You can either install a new version through [Homebrew](http://brew.sh/) (or your favorite package manager) or transform the key on a Linux machine (I used [Cloud9](c9.io)).
+***NOTE:*** If you're on a Mac, like me, you may have issues transforming the public key from the OpenSSH format to PEM format, which is necessary for use with the JWT libraries we're using. The version of ssh-keygen bundled with Mavericks isn't up to date. You can either install a new version through [Homebrew](http://brew.sh/) (or your favorite package manager) or transform the key on a Linux machine (I used [Cloud9](c9.io)).
 
 ### Encoding the token
 
 Now that we've finished setting up our keys, we can encode our token. I ended up using Auth0's [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) library to encode my JWT. Here's some simplified code:
+
+	var jwt = require('jsonwebtoken');
 
     login: function (req, res, next) {
         User.findOne({ where: { username: req.body.user.username } })
@@ -96,9 +120,11 @@ Now that we've finished setting up our keys, we can encode our token. I ended up
 
 When a client application hits this endpoint with valid credentials, it gets a JWT back and stores it to use for future requests.
 
+***NOTE:*** Don't put sensitive information in the token! You can put anything you want in there, but know that it can and will be read - it's a JSON object encoded in Base64 format.
+
 ### Decoding the token upon request
 
-I wanted to add this to an Express application I was building in NodeJS. LUckily, the good folks over at Auth0 have provided a middleware library for Express that handles token authentication, appropriately called [express-jwt](https://github.com/auth0/express-jwt). Decoding the token as part of your server HTTP request lifecycle is simply a manner of plugging the middleware into the Express app or Express routers, like so:
+I wanted to add this to an Express application I was building in Node.js. LUckily, the good folks over at Auth0 have provided a middleware library for Express that handles token authentication, appropriately called [express-jwt](https://github.com/auth0/express-jwt). Decoding the token as part of your server HTTP request lifecycle is simply a manner of plugging the middleware into the Express app or Express routers, like so:
 
 	var app = require('express');
 	var jwt = require('express-jwt');
@@ -111,5 +137,8 @@ I wanted to add this to an Express application I was building in NodeJS. LUckily
 
 The middleware will check the Authorization header of the HTTP request for the JWT and verify it using the key that you provide. In our case, we're verifying our signed token using our public key. If the token has been altered, it will likely be invalid; if it's been replaced or re-signed, the verification won't work using our public key. Either way, the request will fail.
 
-## Implementing JWT in the web interface
+## What's next?
 
+We've established the groundwork for building JWT into the server side. In the next post, we'll talk about implementing verification on the client side.
+
+Stay tuned!
