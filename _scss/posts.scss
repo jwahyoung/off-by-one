@@ -10,6 +10,10 @@
     padding: 5em;
     background: #fff;
     border-radius: 30px;
+
+    &:first-child {
+      padding: 5em 5em 0 5em;
+    }
   }
 
   @media screen and (max-width: 640px) {

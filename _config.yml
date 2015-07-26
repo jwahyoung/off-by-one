@@ -9,7 +9,7 @@ permalink:        pretty
 title:            Off by One
 tagline:          Programming for the rest of us
 url:              http://blog.jedd-ahyoung.com/
-paginate:         1
+paginate:         5
 baseurl:          /
 author:
   name:           Jedd Ahyoung
