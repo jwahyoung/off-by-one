@@ -1,4 +1,5 @@
 ---
+uid: d874f6ad-b71b-4fbc-8922-9e680f306b0a
 layout: post
 title: Creating a Jekyll Blog on Github
 date: 2015-02-15

@@ -1,4 +1,5 @@
 ---
+uid: 788c558c-83c1-4444-81bc-a63c753245fd
 layout: post
 title: Using JWT with an SPA
 date: 2015-07-25

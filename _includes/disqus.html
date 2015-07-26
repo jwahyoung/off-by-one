@@ -2,10 +2,16 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = 'blog-jedd-ahyoung-com';
+	var disqus_identifier = '{{ include.uid }}';
+	var disqus_title = '{{ include.title }}';
+	var disqus_url = '{{ site.url }}{{ include.url }}';
+	// var disqus_developer = 1;
     
     /* * * DON'T EDIT BELOW THIS LINE * * */
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var dsq = document.createElement('script');
+		dsq.type = 'text/javascript';
+		dsq.async = true;
         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
