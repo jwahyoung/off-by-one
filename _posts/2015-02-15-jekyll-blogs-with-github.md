@@ -5,6 +5,8 @@ title: Creating a Jekyll Blog on Github
 date: 2015-02-15
 tags: jekyll
 published: true
+authorid: jahyoung
+author: Jedd Ahyoung
 ---
 
 When I decided to launch **{{site.title}}**, I had to make some choices; how would I host the blog, and what backend would I use? Through GitHub pages, I was introduced to Jekyll, and so I've decided to share my experience with my setup.
