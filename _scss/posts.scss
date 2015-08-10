@@ -9,9 +9,10 @@
     position: relative;
     padding: 5em;
     background: #fff;
-    border-radius: 30px;
 
     &:first-child {
+      border-top-left-radius: 30px;
+      border-top-right-radius: 30px;
       padding: 5em 5em 0 5em;
     }
   }
