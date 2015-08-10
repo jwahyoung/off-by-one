@@ -4,7 +4,7 @@ layout: post
 title: What makes you a good developer?
 date: 2015-07-31
 tags: impostor syndrome, learning
-published: true
+published: false
 ---
 
 A few days ago, I was chatting with a developer friend of mine about a project that I've started on GitHub. At the time of this writing, the project isn't very impressive. However, I had decided earlier to make a list of the things that I learned and gained from starting this project. Creating something tangible helped me internalize the accomplishments I'd made in beginning this project.
