@@ -8,9 +8,15 @@ title: Home
       {% for post in paginator.posts %}
       <div class="post">
         <h1 class="post-title">
-          <a href="{{ post.url }}">
-            {{ post.title }}
-          </a>
+            {% if post.weburl %}
+            <a href="{{ post.weburl }}">
+              {{ post.title }}
+            </a>
+            {% else %}
+            <a href="{{ post.url }}">
+              {{ post.title }}
+            </a>
+            {% endif %}
         </h1>
 
         <span class="post-date">
@@ -21,9 +27,15 @@ title: Home
         {{ post.excerpt }}
 
         <span class="read-more">
+          {% if post.weburl %}
+          <a href="{{ post.weburl }}">
+            Read more...
+          </a>
+          {% else %}
           <a href="{{ post.url }}">
             Read more...
           </a>
+          {% endif %}
         </span>
       </div>
       {% endfor %}
