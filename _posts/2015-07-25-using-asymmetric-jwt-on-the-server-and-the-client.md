@@ -17,16 +17,18 @@ JSON Web Token, or JWT for short, is a token used for authentication in web appl
 
 Tokens expose claims as part of the payload. A typical token payload, after being converted from Base64, could look something like this:
 
-	{
-		"iss": "myapp.io"
-		"exp": "1536710400"
-		"iat": "1437891817"
-		"user": {
-			"username": "testuser",
-			"displayname": "Test User",
-			"permissions": ['read', 'write']
-		}
+```json
+{
+	"iss": "myapp.io",
+	"exp": "1536710400",
+	"iat": "1437891817",
+	"user": {
+		"username": "testuser",
+		"displayname": "Test User",
+		"permissions": ["read", "write"]
 	}
+}
+```
 
 The payload is encapsulated by a header and a footer, containing the token specification (token type, signing algorithm) and signature, respectively.
 
@@ -35,7 +37,7 @@ The payload is encapsulated by a header and a footer, containing the token speci
 What, didn't you read the RFC? Yeah, neither did I. However, there are clear benefits at first glance:
 
  - A user can have an application session without the application having to store that session state in some type of persistent storage.
- - Unlike the classic session model, JWTs don't require the use of cookies, which can simplify cross-domain requests. 
+ - Unlike the classic session model, JWTs don't require the use of cookies, which can simplify cross-domain requests.
 
 The implications for the first bullet point are quite large. Not having to store an application session per user means that we can simplify our code, deload our authentication server and persistence server, and save a lot of space. Furthermore, by using the client as a part of the session scheme, we introduce scalability easily without having to throw more hardware at the solution (or a different storage methodology such as Redis).
 
@@ -49,7 +51,7 @@ We're going to use JWT for user identification and authorization - on both the s
 
 For the purposes of my use case, I wanted to provide an authentication endpoint in my server application. Upon a successful login, the user would receive a JSON Web Token, which would be stored in the client application (in LocalStorage, in this case). The token itself would contain a list of permissions applicable to that user, along with any other relevant user information. Logging out would simply clear the token from storage.
 
-The token would be passed in the Authorization header of every web request; once the server verifies the token, the server application logic would use the permissions defined in the token to determine whether or not a user is authorized to perform the specific function associated with that request. 
+The token would be passed in the Authorization header of every web request; once the server verifies the token, the server application logic would use the permissions defined in the token to determine whether or not a user is authorized to perform the specific function associated with that request.
 
 Here's the cool thing - the client-side application, having a copy of the token, could also read the permissions and deny access to certain functionality based on the token itself. Due to the way we'll implement the token signature, the client-side application can check the validity of the token and react to an invalid token, just as the server can.
 
@@ -69,31 +71,35 @@ JWT supports multiple asymmetric key types. A discussion of the different key ty
 
 I'm not sure how this can be done on a Windows system (sorry!) but if you're on a BSD or Unix-based system, you can use `ssh-keygen` to generate a pair of keys at the terminal prompt, like so:
 
-	Jedds-MacBook-Pro:~ jahyoung$ ssh-keygen
-	Generating public/private rsa key pair.
-	Enter file in which to save the key (/Users/jahyoung/.ssh/id_rsa): 
-	Enter passphrase (empty for no passphrase): 
-	Enter same passphrase again: 
-	Your identification has been saved in /Users/jahyoung/.ssh/id_rsa.
-	Your public key has been saved in /Users/jahyoung/.ssh/id_rsa.pub.
-	The key fingerprint is:
-	95:19:dc:88:64:5b:9e:20:7e:02:47:fa:9d:5a:00:bd jahyoung@Jedds-MacBook-Pro.local
-	The key's randomart image is:
-	+--[ RSA 2048]----+
-	|        ==B      |
-	|       o.B.* .   |
-	|       .+ +.* .  |
-	|        .o.+oo   |
-	|         .oE S   |
-	|            o    |
-	|           .     |
-	|                 |
-	|                 |
-	+-----------------+
+```
+Jedds-MacBook-Pro:~ jahyoung$ ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/Users/jahyoung/.ssh/id_rsa):
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /Users/jahyoung/.ssh/id_rsa.
+Your public key has been saved in /Users/jahyoung/.ssh/id_rsa.pub.
+The key fingerprint is:
+95:19:dc:88:64:5b:9e:20:7e:02:47:fa:9d:5a:00:bd jahyoung@Jedds-MacBook-Pro.local
+The key's randomart image is:
++--[ RSA 2048]----+
+|        ==B      |
+|       o.B.* .   |
+|       .+ +.* .  |
+|        .o.+oo   |
+|         .oE S   |
+|            o    |
+|           .     |
+|                 |
+|                 |
++-----------------+
+```
 
 When using ssh-keygen, you'll have to convert the public key to PEM format so that our application can use it:
 
-	ssh-keygen -f mydirectory/rsa.pub -e -m pem
+```
+ssh-keygen -f mydirectory/rsa.pub -e -m pem
+```
 
 After that, you can either move the keys to your project directory for use in your application (don't check them in!); at startup, the application can read the keys into its process environment.
 
@@ -105,20 +111,23 @@ Note that when generating a key (regardless of which tool you use to do so), for
 
 Now that we've finished setting up our keys, we can encode our token. I ended up using Auth0's [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) library to encode my JWT. Here's some simplified code:
 
-	var jwt = require('jsonwebtoken');
+```javascript
+var jwt = require('jsonwebtoken');
 
-    login: function (req, res, next) {
-        User.findOne({ where: { username: req.body.user.username } })
-            .then(function (user) {
-                return User.checkCredentials(user.password, req.body.user.password);
-            })  
-            .then(function (user) {
-                res.send(jwt.sign(user, process.env.MY_PRIVATE_KEY, {
-                    algorithm: 'RS256',
-                    issuer: 'myApp',
-                    expiresInMinutes: 60
-                })); 
-            });
+module.exports.login = function (req, res, next) {
+    User.findOne({ where: { username: req.body.user.username } })
+        .then(function (user) {
+            return User.checkCredentials(user.password, req.body.user.password);
+        })  
+        .then(function (user) {
+            res.send(jwt.sign(user, process.env.MY_PRIVATE_KEY, {
+                algorithm: 'RS256',
+                issuer: 'myApp',
+                expiresInMinutes: 60
+            }));
+        });
+}
+```
 
 When a client application hits this endpoint with valid credentials, it gets a JWT back and stores it to use for future requests.
 
@@ -128,12 +137,14 @@ When a client application hits this endpoint with valid credentials, it gets a J
 
 I wanted to add this to an Express application I was building in Node.js. LUckily, the good folks over at Auth0 have provided a middleware library for Express that handles token authentication, appropriately called [express-jwt](https://github.com/auth0/express-jwt). Decoding the token as part of your server HTTP request lifecycle is simply a manner of plugging the middleware into the Express app or Express routers, like so:
 
-	var app = require('express');
-	var jwt = require('express-jwt');
+```javascript
+var app = require('express');
+var jwt = require('express-jwt');
 
-	...
+...
 
-	app.use(jwt({ secret: process.env.MY_PUBLIC_KEY, algorithms: ['RS256'] }));
+app.use(jwt({ secret: process.env.MY_PUBLIC_KEY, algorithms: ['RS256'] }));
+```
 
 (Plugging the middleware into the Express router instances allows for more granularity; you wouldn't want this middleware on your login endpoint, for instance.)
 
