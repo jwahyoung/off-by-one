@@ -4,7 +4,7 @@ layout: post
 title: Introspection
 date: 2016-08-25
 tags: conference, introspection
-published: false
+published: true
 authorid: jahyoung
 author: Jedd Ahyoung
 ---
