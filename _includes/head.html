@@ -10,6 +10,33 @@
 		}
 	</script>
 
+	<!-- Twitter meta tags and opengraph.-->
+	<meta property="og:locale" content="en_US" />
+	<meta property="og:site_name" content="{{ site.title }}" />
+	<meta property="og:url" content="{{ site.baseurl }}{{ page.url }}" />
+
+	{% if page.title == "Home" %}
+	  <meta property="og:title" content="{{ site.title }} &middot; {{ site.tagline }}" />
+	  <meta property="og:description" content="Off by One is a blog for the average joe programmer - just the guy or girl who's trying to come up. Everyone makes mistakes; this blog is intended to celebrate the learning process." />
+	  <meta property="og:image" content="{{ site.baseurl }}images/logo.svg" />
+	{% else %}
+	  <meta property="og:title" content="{{ page.title }} &middot; {{ site.title }}" />
+	  <meta property="og:description" content="{{ page.description }}" />
+	  <meta property="og:type" content="article" />
+	  <meta property="og:updated_time" content="{{ page.date }}" />
+	  <meta property="article:published_time" content="{{ page.date }}" />
+	  <meta property="article:modified_time" content="{{ page.date }}" />
+	  <meta property="article:author" content="{{ page.author }}" />
+	  {% for tag in page.tags %}
+	    <meta property="article:tags" content="{{ tag }}" />
+	  {% endfor %}
+	  <meta property="og:image" content="{{ site.baseurl }}{{ page.tw_image }}" />
+	{% endif %}
+
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site:id" content="@jedd-ahyoung" />
+	<meta name="twitter:author" content="@jedd-ahyoung" />
+
 	<!-- Enable responsiveness on mobile devices-->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
