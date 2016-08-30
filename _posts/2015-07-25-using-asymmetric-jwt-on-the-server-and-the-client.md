@@ -2,8 +2,9 @@
 uid: 788c558c-83c1-4444-81bc-a63c753245fd
 layout: post
 title: Using asymmetric JWT on the server and the client
+description: "The modern web is built upon a stateless protocol: HTTP. However, we turn to older conventions when attempting to store state in web applications - often turning to session storage on the server side. Now, we have a modern alternative: JSON Web Token."
 date: 2015-07-25
-tags: jwt, javascript, node, express
+tags: jwt javascript node express
 published: true
 authorid: jahyoung
 author: Jedd Ahyoung

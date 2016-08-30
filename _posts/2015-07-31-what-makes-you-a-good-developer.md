@@ -2,8 +2,9 @@
 uid: 440566ed-a9ac-4c0d-8820-358650b45c80
 layout: post
 title: What makes you a good developer?
+description: "A few days ago, I was chatting with a developer friend of mine about a project that I've started on GitHub. At the time of this writing, the project isn't very impressive. However, I had decided earlier to make a list of the things that I learned and gained from starting this project. Creating something tangible helped me internalize the accomplishments I'd made in beginning this project."
 date: 2015-07-31
-tags: impostor syndrome, learning
+tags: impostor syndrome learning
 published: false
 ---
 

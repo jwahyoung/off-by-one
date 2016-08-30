@@ -2,6 +2,7 @@
 uid: d874f6ad-b71b-4fbc-8922-9e680f306b0a
 layout: post
 title: Creating a Jekyll Blog on Github
+description: "When I decided to launch {{site.title}}, I had to make some choices; how would I host the blog, and what backend would I use? Through GitHub pages, I was introduced to Jekyll, and so I've decided to share my experience with my setup."
 date: 2015-02-15
 tags: jekyll
 published: true

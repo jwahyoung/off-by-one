@@ -2,8 +2,9 @@
 uid: 3a156e17-731c-4042-aeda-7357592c9240
 layout: post
 title: Introspection
+description: "How can you underscore your strengths, overhaul your weaknesses, and maximize your potential?"
 date: 2016-08-25
-tags: conference, introspection
+tags: conference introspection
 published: true
 authorid: jahyoung
 author: Jedd Ahyoung
