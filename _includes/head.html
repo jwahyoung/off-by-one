@@ -13,12 +13,12 @@
 	<!-- Twitter meta tags and opengraph.-->
 	<meta property="og:locale" content="en_US" />
 	<meta property="og:site_name" content="{{ site.title }}" />
-	<meta property="og:url" content="{{ site.baseurl }}{{ page.url }}" />
+	<meta property="og:url" content="{{ site.url }}{{ page.url }}" />
 
 	{% if page.title == "Home" %}
 	  <meta property="og:title" content="{{ site.title }} &middot; {{ site.tagline }}" />
-	  <meta property="og:description" content="Off by One is a blog for the average joe programmer - just the guy or girl who's trying to come up. Everyone makes mistakes; this blog is intended to celebrate the learning process." />
-	  <meta property="og:image" content="{{ site.baseurl }}images/logo.svg" />
+	  <meta property="og:description" content="Off by One is a blog for the average programmer. Everyone makes mistakes; this blog is intended to celebrate the learning process." />
+	  <meta property="og:image" content="{{ site.url }}/images/logo.svg" />
 	{% else %}
 	  <meta property="og:title" content="{{ page.title }} &middot; {{ site.title }}" />
 	  <meta property="og:description" content="{{ page.description }}" />
@@ -30,7 +30,7 @@
 	  {% for tag in page.tags %}
 	    <meta property="article:tags" content="{{ tag }}" />
 	  {% endfor %}
-	  <meta property="og:image" content="{{ site.baseurl }}images/logo.svg" />
+	  <meta property="og:image" content="{{ site.url }}/images/logo.svg" />
 	{% endif %}
 
 	<meta name="twitter:card" content="summary" />
