@@ -5,7 +5,7 @@ title: Exploring Array.forEach and Array.map
 description: ""
 date: 2017-11-25
 tags: javascript function map foreach array
-published: true
+published: false
 ---
 
 JavaScript, in many ways, is a practical language. It provides standard imperative language-level constructs that are common to many languages, but it also provides higher-level functional constructs. For example, JavaScript provides `for` loops, `Array.prototype.forEach`, and `Array.prototype.map` for dealing with collections. But at first glance, for iterating over the values in an array, these all seem identical. What gives?
