@@ -1,11 +1,11 @@
 ---
 uid: 4d36d722-2bf5-415e-ae54-17a37798b691
 layout: post
-title: Exploring Array.forEach and Array.map
-description: ""
+title: Exploring Array iteration in JavaScript
+description: "JavaScript provides 'for' loops, 'Array.prototype.forEach', and 'Array.prototype.map' for dealing with collections. But at first glance, for iterating over the values in an array, these all seem identical. What gives?"
 date: 2017-11-25
 tags: javascript function map foreach array
-published: false
+published: true
 ---
 
 JavaScript, in many ways, is a practical language. It provides standard imperative language-level constructs that are common to many languages, but it also provides higher-level functional constructs. For example, JavaScript provides `for` loops, `Array.prototype.forEach`, and `Array.prototype.map` for dealing with collections. But at first glance, for iterating over the values in an array, these all seem identical. What gives?
@@ -17,6 +17,8 @@ Today, we'll compare and contrast the following three operations, explore their 
  1. `Array.prototype.map`.
 
 ## The `for` loop
+*"Given a block of code, repeat that code block until the termination condition is satisfied."*
+
 The `for` loop, based in imperative programming, is a well-known method for running a block of code multiple times based on a set of criteria. The `for` loop and variants of it can be found in many programming languages. Essentially, a block of code is defined within the `for` scope, and that block is executed a number of times based on the criteria checked in the for loop. There are a few variations (loops that use iterators, such as `for...in` and `for...of`), but It generally looks something like this:
 
 ```javascript
@@ -32,20 +34,12 @@ for (var i = 0; i < array.length; i++) {
 
 In this case, the for loop defines a start condition (`i = 0`), a termination condition (`i < array.length`), and an execution statement (`i++`) that runs on every iteration of the loop. When we use a basic for loop with arrays, we generally use a counter; we define our start condition and end conditions based on the indices of the array that we want to access, and we set our execution statement to allow us to step through elements of the array by altering the counter.
 
-### When is a `for` loop appropriate?
-
-For loops are lower-level constructs in JavaScript, and as such have many use cases. You can use a for loop when:
-
- 1. You need to break out of the `for` loop early (this can be accomplished using the `break` statement).
- 1. You need a custom iteration order (for example, looping through an array backwards, or only performing an operation for every other element).
- 1. Performance is critical and you heavily need to minimize abstractions.
-
-### When is a `for` loop inappropriate?
-
-There aren't many cases where a basic `for` loop won't work. However, there exist abstractions to make code cleaner and more maintainable, such as `forEach`.
+However, there exist abstractions to make collection iteration easier, cleaner, and more maintainable - such as `forEach`
 
 ## Array.prototype.forEach
-When we use `Array.prototype.forEach`, it looks like this:
+*"Given an operation, repeat that operation for each element in a collection."*
+
+Here's an example of `forEach` in action:
 
 ```javascript
 var array = [1, 2, 3, 4];
@@ -57,7 +51,10 @@ array.forEach(function (each) {
 
 // newArray: [2, 4, 6, 8]
 ```
+
 If we have `for` loops, why would we need a `forEach` function?
+
+### The thought process behind `forEach`
 
 Imagine that we have three atomic operations: one to double a number, one to square it, and one to log the numbers to the console.
 
@@ -95,7 +92,11 @@ This works. But now, if I want to square the elements in my collection, I have t
  1. Every new operation we add will need to have an associated version just for arrays.
  1. Each array-specific operation that we have will repeat the same boilerplate code.
 
-Why is this bad? It quickly becomes error-prone, because we have to repeat shared logic across multiple operations. We also end up with a lot of maintenance overhead; for every operation we create to handle a  single element, we need to create one to handle a collection, doubling the number of methods we need to write! (To me, this is unacceptable, because I'm lazy and I don't like grunt work.) What if we could consolidate the boilerplate logic into a single function and make this work for any and all of our original operations? Perhaps something like this:
+Why is this bad? It quickly becomes error-prone, because we have to repeat shared logic across multiple operations. We also end up with a lot of maintenance overhead; for every operation we create to handle a  single element, we need to create one to handle a collection, doubling the number of methods we need to write! Can we fix this?
+
+### Designing a basic implementation of `forEach`
+
+What if we could consolidate the boilerplate logic into a single function and make this work for any and all of our original operations? Perhaps something like this:
 
 ```javascript
 function forEach (array, operationName) {
@@ -116,7 +117,7 @@ function forEach (array, operationName) {
 }
 ```
 
-This is better - it's more general - but we still have maintenance complexity, and we still have tight coupling. Is there a better way?
+This is better - it's more general. (Instead of switch statements, we could use function maps in a lookup object). But we still have maintenance complexity even if we refactor this, and we still have tight coupling. Is there a better way?
 
 As it turns out, there is. JavaScript supports a paradigm known as first-class functions. This essentially means that functions can be treated like a number, a string, or any other data type; functions can be assigned to variables, and they can be passed around and referenced just like other objects.
 
@@ -126,7 +127,7 @@ Currently, our function declaration looks like this:
 
 ```javascript
 /**
- * @param {Array} array,
+ * @param {Array} array
  * @param {string} operationName
  */
 forEach(array, operationName)
@@ -152,31 +153,18 @@ function forEach (array, fn) {
 }
 ```
 
-ForEach is an example of a higher-level function; it takes a function as a parameter and calls that function for each element in a collection, passing the element as an argument to the function.
-
-> NOTE: The function above is just a demonstration of the underlying logic. In reality, the function implementation might look more like this, passing more arguments to the function and handling `this` scope correctly.
-
-> ```javascript
-// context is the "this" argument that we want to pass to our function
-function forEach (array, fn, context) {
-	for (var i = 0; i < array.length; i++) {
-		if (array.hasOwnProperty(i)) {
-			fn.prototype.apply(context, [array[i], i, array]);
-		}
-	}
-}
-```
+`forEach` is an example of a higher-level function; it takes a function as a parameter and calls that function for each element in a collection, passing the element as an argument to the function.
 
 So now, with our `forEach` function, we can do this:
 
-```
+```javascript
 var array = [1, 2, 3, 4];
 
 function print (x) {
 	console.log(x * 2);
 }
 
-array.forEach(print);
+forEach(array, print);
 
 // console: 2
 // console: 4
@@ -184,26 +172,30 @@ array.forEach(print);
 // console: 8
 ```
 
-### When is `forEach` appropriate?
-It's worth noting that anything you can do with `forEach`, you can do with a `for` loop. However, I personally only tend to use `for` loops as a fallback strategy when I can't attack an issue in a functional way. Use `forEach` when:
+### The actual implementation of `Array.prototype.forEach`
 
- 1. You want to code `for` loops in a more functional style.
- 2. You need to iterate over a sparse array and only want to run your functions for populated elements.
- 3. You need to dynamically choose an operation to apply over your collection at runtime.
+The `forEach` function we defined above is just a demonstration of the underlying logic. In practice, we'd run into some issues. The actual implementation is built differently to handle more use cases - such as providing a "this" context to the operation, and checking whether the property exists - but the underlying premise is still the same. The following code is closer to the actual implementation:
 
-### When is `forEach` inappropriate?
+```javascript
+/**
+ * @param {Function} fn The operation to run on each element of the array.
+ * @param {Object} [context] The value of "this" in the operation.
+ */
+Array.prototype.forEach = function (fn, context) {
+	for (var i = 0; i < this.length; i++) {
+		if (this.hasOwnProperty(i)) {
+			fn.prototype.apply(context, [this[i], i, this]);
+		}
+	}
+}
+```
 
-There are cases when you will need to fall back to the standard for loop:
-
-  1. You need a custom iteration order. `forEach` will always traverse an array in ascending index order, from the first element to the last.
-  1. You need to terminate the `forEach` early. `forEach` doesn't allow for this. Use a `for` loop instead.
-  1. You only want to iterate over a portion of the array. Use a `for` loop.
-  1. You're dealing with a sparse array, but you want to run operations for all indexes, even if they are empty. Use a `for` loop.
-
+[There's excellent information over on MDN about `Array.prototype.forEach`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach). (There's probably also a better code sample.)
 
 ## Array.prototype.map
+*"Given a function that can transform a single element, apply that transform function over a collection."*
 
-When we use `Array.prototype.map`, it looks like this:
+Here's an example of `map` in action:
 
 ```javascript
 var array = [1, 2, 3, 4];
@@ -223,60 +215,178 @@ There are, however, some core differences.
  1. `forEach` has no return value, while `map` returns a new array that has been transformed by the passed function.
  1. `map` does not mutate the original array.
 
-The core idea driving `forEach` is this: *Given an operation, repeat that operation for each element in a collection.*
+### The thought process behind `map`
 
-The fundamental idea behind the `map` function is more focused, and reads like this: *Given a function that can transform a single element, apply that transform function over a collection.*
-
-Let's take our operations from above:
+Let's take our double operation from above, along with our `forEach` function from above:
 
 ```javascript
 function double (x) {
 	return x * 2;
 }
 
-function square (x) {
-	return x * x;
+var array = [1, 2, 3, 4];
+var newArray = [];
+forEach(array, double);
+
+// array: [1, 2, 3, 4]
+// newArray: []
+```
+
+Uh-oh. What's happening here?
+
+`forEach` runs our `double` operation on each element of the array. Our operation returns the correct value, but due to the way `forEach` works the return value isn't used. This means that our operation would have to have a side effect to work:
+
+```javascript
+function double (x) {
+	newArray.push(x * 2);
 }
 
-function print (x) {
-	console.log(x);
+var array = [1, 2, 3, 4];
+var newArray = [];
+forEach(array, double);
+
+// array: [1, 2, 3, 4]
+// newArray: [2, 4, 6, 8]
+```
+
+This, however, is still problematic. We've introduced side effects and our double operation is now tightly coupled to `newArray`; we can work around this in various ways (we could retain the original `double` operation, and define a `doubleArray` operation), but we've essentially recreated the problems we had before.
+
+It'd be better if we could do something like the following:
+
+```javascript
+function double (x) {
+	return x * 2;
+}
+
+var array = [1, 2, 3, 4];
+var newArray = forEach(array, double);
+```
+
+...but the output isn't what we expect:
+
+```javascript
+// array: [1, 2, 3, 4]
+// newArray: undefined
+```
+
+`forEach` isn't designed to return a value. Is there another solution?
+
+### Designing a basic implementation of `map`
+
+Let's define a new function, `map`, that follows the same principles as `forEach`, but that uses the return value of the passed operation and returns the result of transforming the collection.
+
+```javascript
+function map (array, fn) {
+	var mapped = [];
+
+	for (var i = 0; i < array.length; i++) {
+		mapped.push(fn(array[i]));
+	}
+
+	return mapped;
 }
 ```
 
+Now, we can use our function to set our variable:
 
+```javascript
+function double (x) {
+	return x * 2;
+}
 
-Because `map` returns a new array with the transformations, it can be chained, like so:
+var array = [1, 2, 3, 4];
+var newArray = map(array, double);
+
+// array: [1, 2, 3, 4]
+// newArray: [2, 4, 6, 8]
+```
+
+What happened? `map` uses the return value of the operation to populate each element of the new array. In contrast to `forEach`, any operation passed to `map` must provide a return value. Ideally, these functions would be [pure functions](https://en.wikipedia.org/wiki/Pure_function), functions that don't contain any side effects.
+
+### The actual implementation of `Array.prototype.map`
+
+Again, the `map` function above is just a demonstration of the underlying logic. The actual implementation is an Array.prototype function that handles sparse arrays, context, and chaining, but the underlying premise is still the same. The following code is closer to the actual implementation (but still, I wrote it, so I'm sure MDN has a better polyfill example [on their documentation site](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)):
+
+```javascript
+/**
+ * @param {Function} fn The operation to run on each element of the array.
+ * @param {Object} [context] The value of "this" in the operation.
+ */
+Array.prototype.map = function (fn, context) {
+	var map = this.slice();
+	for (var i = 0; i < this.length; i++) {
+		if (this.hasOwnProperty(i)) {
+			map[i] = fn.prototype.apply(context, [this[i], i, this]);
+		}
+	}
+	return map;
+}
+```
+
+Because `map` returns a new array with the transformations, and because it's defined on `Array.prototype`, it can be chained, like so:
 
 ```javascript
 var result = [1, 2, 3, 4, 5]
 	.map(double)
 	.map(square);
-
 // result: [4, 16, 36, 64, 100]
 ```
 
-However, what happens if we use the print operation?
+Because this can be chained, it can be used in a pipeline with other array functions, such as `filter`, `reduce`, and `join`.
 
-```
-var result = [1, 2, 3, 4, 5]
-	.map(double)
-	.map(square)
-	.map(print);
+## Use Cases
 
-// result: [undefined, undefined, undefined]
-```
+Now that we've talked a bit about the thought processes behind these constructs and explored possible implementations, it's time to talk about how and when each should be used.
 
-What happened? `map` uses the return value of the operation to populate each element of the new array. Because the `print` function has no return value, each element ends up undefined.
+### When is a `for` loop appropriate?
 
-In contrast to `forEach`, any operation passed to `map` must provide a return value. Ideally, these functions would be "pure functions", functions that don't contain any side effects.
+For loops are lower-level constructs in JavaScript, and as such have many use cases. You can use a for loop when:
+
+ 1. You need to break out of the `for` loop early (this can be accomplished using the `break` statement).
+ 1. You need a custom iteration order (for example, looping through an array backwards, or only performing an operation for every other element).
+ 1. Performance is critical and you heavily need to minimize abstractions.
+
+### When is a `for` loop inappropriate?
+
+There aren't many cases where a basic `for` loop won't work. That said, if it's cleaner to use a high-level abstraction and you don't have any of the constraints defined above, consider using the functional abstractions.
+
+### When is `forEach` appropriate?
+It's worth noting that anything you can do with `forEach`, you can do with a `for` loop. However, I personally only tend to use `for` loops as a fallback strategy when I can't attack an issue in a functional way. Use `forEach` when:
+
+ 1. You want to code `for` loops in a more functional style.
+ 2. You need to iterate over a sparse array and only want to run your functions for populated elements.
+ 3. You need to dynamically choose an operation to apply over your collection at runtime.
+
+### When is `forEach` inappropriate?
+
+There are cases when you will need to fall back to the standard for loop:
+
+  1. You need a custom iteration order. `forEach` will always traverse an array in ascending index order, from the first element to the last.
+  1. You need to terminate the `forEach` early. `forEach` doesn't allow for this. Use a `for` loop instead.
+  1. You only want to iterate over a subset of the array. Use a `for` loop.
+  1. You're dealing with a sparse array, but you want to run operations for all indexes, even if they are empty. Use a `for` loop.
 
 ### When is `map` appropriate?
 
-1. You are transforming data, but you don't want to affect the original array.
+1. You are transforming data as a set, but you don't want to affect the original array.
 1. You are transforming data as part of a functional pipeline.
+1. Your transformation operation is atomic and has no state based on the array or any side effects.
 
 ### When is `map` inappropriate?
 
 1. You want to iterate over an array to perform an operation with side effects, and you don't care about the return values. Use `forEach`.
 1. You want to operate on the array in-place, mutating each element. Use `forEach` or a `for` loop.
+1. You want to only map a subset of an array to a transformation. Use a `for` loop, or filter your collection before you map it.
 3. You are concerned about space complexity. Because `map` creates a new array, it doubles the storage space needed. Consider using `forEach` or a `for` loop to operate on the array in-place.
+
+## Wrap-up
+
+Today, we've covered:
+
+1. The standard `for` loop.
+1. `Array.prototype.forEach`.
+1. `Array.prototype.map`.
+
+We took a look at a couple of the functional abstractions for looping in JavaScript, we've explored their implementations, and we've talked about when they're useful and when they might be the wrong tool to use.
+
+JavaScript, despite its faults, can be a very elegant language with some nice tools. At times, some tools seem similar, but they have their differences, use cases, and nuances. Hopefully, this has helped to clear up the differences between (and, more importantly, the reasons behind) `for` loops, `Array.prototype.forEach`, and `Array.prototype.map`.
