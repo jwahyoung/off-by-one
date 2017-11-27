@@ -10,7 +10,7 @@
         <div class="masthead">
           <div class="container">
             <h3 class="masthead-title">
-              <a href="{{ site.baseurl }}" title="Home">{{ site.title }}</a>
+              <a href="{{ '/' | relative_url }}" title="Home">{{ site.title }}</a>
               {% if site.localenvironment == true %}
               <span style="color: red;">DEVELOPMENT</span>
               {% endif %}

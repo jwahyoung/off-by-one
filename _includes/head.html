@@ -49,7 +49,7 @@
 	</title>
 
 	<!-- CSS -->
-	<link rel="stylesheet" href="{{ site.baseurl }}css/style.css" />
+	<link rel="stylesheet" href="{{ '/' | relative_url }}css/style.css" />
 
 	<!-- Google Fonts -->
 	<link href='http://fonts.googleapis.com/css?family=Muli:300' rel='stylesheet' type='text/css' />
@@ -57,11 +57,11 @@
 	<link href='http://fonts.googleapis.com/css?family=Rock+Salt' rel='stylesheet' type='text/css' />
 
 	<!-- Icons -->
-	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ site.baseurl }}public/apple-touch-icon-precomposed.png" />
-	<link rel="shortcut icon" href="{{ site.baseurl }}public/favicon.ico" />
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ '/' | relative_url }}public/apple-touch-icon-precomposed.png" />
+	<link rel="shortcut icon" href="{{ '/' | relative_url }}public/favicon.ico" />
 
 	<!-- RSS -->
-	<link rel="alternate" type="application/rss+xml" title="RSS" href="{{ site.baseurl }}atom.xml" />
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="{{ '/' | relative_url }}atom.xml" />
 
 	{% if site.localenvironment == nil %}
 		<script>
