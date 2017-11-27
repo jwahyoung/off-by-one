@@ -18,7 +18,7 @@
 	{% if page.title == "Home" %}
 	  <meta property="og:title" content="{{ site.title }} &middot; {{ site.tagline }}" />
 	  <meta property="og:description" content="Off by One is a blog for the average programmer. Everyone makes mistakes; this blog is intended to celebrate the learning process." />
-	  <meta property="og:image" content="{{ '/' | relative_url }}/images/moneyshot3.png" />
+	  <meta property="og:image" content="{{ site.url }}/images/moneyshot3.png" />
 	{% else %}
 	  <meta property="og:title" content="{{ page.title }} &middot; {{ site.title }}" />
 	  <meta property="og:description" content="{{ page.description }}" />
@@ -30,13 +30,14 @@
 	  {% for tag in page.tags %}
 	    <meta property="article:tags" content="{{ tag }}" />
 	  {% endfor %}
-	  <meta property="og:image" content="{{ '/' | relative_url }}/images/moneyshot3.png" />
+	  <meta property="og:image" content="{{ site.url }}/images/moneyshot3.png" />
 	{% endif %}
 
 	<meta name="twitter:card" content="summary" />
-	<meta name="twitter:site:id" content="@jedd-ahyoung" />
-	<meta name="twitter:author" content="@jedd-ahyoung" />
-	<meta name="twitter:image" content="{{ '/' | relative_url }}/images/moneyshot3.png" />
+	<meta name="twitter:site" content="@jedd-ahyoung" />
+	<meta name="twitter:creator" content="@jedd-ahyoung" />
+	<meta name="twitter:image" content="{{ site.url }}/images/moneyshot3.png" />
+	<meta name="twitter:image:alt" content="Profile picture of Jedd Ahyoung" />
 
 	<!-- Enable responsiveness on mobile devices-->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
