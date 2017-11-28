@@ -174,7 +174,7 @@ forEach(array, print);
 
 ### The actual implementation of `Array.prototype.forEach`
 
-The `forEach` function we defined above is just a demonstration of the underlying logic. In practice, we'd run into some issues. The actual implementation is built differently to handle more use cases - such as providing a "this" context to the operation, and checking whether the property exists - but the underlying premise is still the same. The following code is closer to the actual implementation:
+The `forEach` function we defined above is just a demonstration of the underlying logic. In practice, we'd run into some issues. The actual implementation is built differently to handle more use cases - such as providing a "this" context to the operation, and checking whether the property exists - but the underlying premise is still the same. The following code is closer to a production implementation:
 
 ```javascript
 /**
@@ -189,8 +189,6 @@ Array.prototype.forEach = function (fn, context) {
 	}
 }
 ```
-
-[There's excellent information over on MDN about `Array.prototype.forEach`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach). (There's probably also a better code sample.)
 
 ## Array.prototype.map
 *"Given a function that can transform a single element, apply that transform function over a collection."*
@@ -305,7 +303,7 @@ What happened? `map` uses the return value of the operation to populate each ele
 
 ### The actual implementation of `Array.prototype.map`
 
-Again, the `map` function above is just a demonstration of the underlying logic. The actual implementation is an Array.prototype function that handles sparse arrays, context, and chaining, but the underlying premise is still the same. The following code is closer to the actual implementation (but still, I wrote it, so I'm sure MDN has a better polyfill example [on their documentation site](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)):
+Again, the `map` function above is just a demonstration of the underlying logic. The actual implementation is an Array.prototype function that handles sparse arrays, context, and chaining, but the underlying premise is still the same. The following code is closer to a production implementation:
 
 ```javascript
 /**
@@ -389,4 +387,15 @@ Today, we've covered:
 
 We took a look at a couple of the functional abstractions for looping in JavaScript, we've explored their implementations, and we've talked about when they're useful and when they might be the wrong tool to use.
 
-JavaScript, despite its faults, can be a very elegant language with some nice tools. At times, some tools seem similar, but they have their differences, use cases, and nuances. Hopefully, this has helped to clear up the differences between (and, more importantly, the reasons behind) `for` loops, `Array.prototype.forEach`, and `Array.prototype.map`.
+JavaScript, despite its faults, can be a very elegant language with some nice tools. At times, some tools seem similar, but they have their differences, use cases, and nuances. Hopefully, this has helped to clear up the differences between (and, more importantly, the reasons behind) `for` loops, `Array.prototype.forEach`, and `Array.prototype.map`. Check out some more resources below!
+
+## More Resources
+
+- [`Array.prototype.map on MDN`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map), and the recommended polyfill implementation: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map#Polyfill
+
+- [`Array.prototype.forEach` on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach), and the recommended polyfill implementation: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach#Polyfill
+
+- [Lodash](https://lodash.com/)
+    - Lodash's map implementation: https://github.com/lodash/lodash/blob/master/map.js
+    - Lodash's foreach implementation:
+    https://github.com/lodash/lodash/blob/master/forEach.js
