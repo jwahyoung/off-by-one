@@ -8,13 +8,13 @@ permalink:        pretty
 # Setup
 title:            Off by One
 tagline:          Programming for the rest of us
-url:              http://blog.jedd-ahyoung.com
+url:              https://jwahyoung.github.io/off-by-one
 paginate:         5
 baseurl:          /
 author:
-  name:           Jedd Ahyoung
-  url:            http://www.jedd-ahyoung.com
-  email:          jedd-ahyoung@gmail.com
+  name:           J.W. Ahyoung
+  url:            https://jwahyoung.github.io/off-by-one
+  email:          
 
 # Sass
 sass:
@@ -24,4 +24,4 @@ sass:
 # Custom vars
 version:          1.0.0
 github:
-  repo:           https://github.com/jedd-ahyoung/off-by-one
+  repo:           https://github.com/jwahyoung/off-by-one
